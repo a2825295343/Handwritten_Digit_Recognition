@@ -173,18 +173,17 @@ def init_models():
 
     return mlp, cnn, mlp_history, cnn_history, mlp_metrics, cnn_metrics
 
-# 生成训练过程对比曲线图（核心修改：横坐标为训练轮次）
+# 生成训练过程对比曲线图
 def plot_training_history(mlp_history, cnn_history):
     """生成训练过程对比曲线图（横坐标：训练轮次）"""
-    # 设置中文显示（解决乱码问题）
-    plt.rcParams['font.sans-serif'] = ['SimHei']  # 中文支持
-    plt.rcParams['axes.unicode_minus'] = False    # 负号显示
+    plt.rcParams['font.sans-serif'] = ['SimHei']
+    plt.rcParams['axes.unicode_minus'] = False
 
-    # 创建画布（2行2列，展示4个维度的训练变化）
+    # 创建画布
     fig, axes = plt.subplots(2, 2, figsize=(14, 10))
     fig.suptitle('MLP vs CNN 训练过程对比曲线', fontsize=16, fontweight='bold')
 
-    # 1. 训练损失变化曲线（横坐标：Epoch，纵坐标：Loss）
+    # 1. 训练损失变化曲线
     axes[0,0].plot(mlp_history['epoch'], mlp_history['loss'],
                    marker='o', linewidth=2, color='#e74c3c', label='MLP')
     axes[0,0].plot(cnn_history['epoch'], cnn_history['loss'],
@@ -195,7 +194,7 @@ def plot_training_history(mlp_history, cnn_history):
     axes[0,0].legend()
     axes[0,0].grid(True, alpha=0.3)
 
-    # 2. 训练准确率变化曲线（横坐标：Epoch，纵坐标：准确率）
+    # 2. 训练准确率变化曲线
     axes[0,1].plot(mlp_history['epoch'], mlp_history['train_accuracy'],
                    marker='o', linewidth=2, color='#e74c3c', label='MLP')
     axes[0,1].plot(cnn_history['epoch'], cnn_history['train_accuracy'],
@@ -203,11 +202,11 @@ def plot_training_history(mlp_history, cnn_history):
     axes[0,1].set_title('训练准确率（Accuracy）变化')
     axes[0,1].set_xlabel('训练轮次（Epoch）')
     axes[0,1].set_ylabel('准确率（%）')
-    axes[0,1].set_ylim(80, 100)  # 固定y轴范围，突出差异
+    axes[0,1].set_ylim(80, 100)
     axes[0,1].legend()
     axes[0,1].grid(True, alpha=0.3)
 
-    # 3. 每轮训练耗时变化曲线（横坐标：Epoch，纵坐标：耗时）
+    # 3. 每轮训练耗时变化曲线
     axes[1,0].plot(mlp_history['epoch'], mlp_history['time_per_epoch'],
                    marker='o', linewidth=2, color='#e74c3c', label='MLP')
     axes[1,0].plot(cnn_history['epoch'], cnn_history['time_per_epoch'],
@@ -218,7 +217,7 @@ def plot_training_history(mlp_history, cnn_history):
     axes[1,0].legend()
     axes[1,0].grid(True, alpha=0.3)
 
-    # 4. 参数量对比（静态值，辅助参考）
+    # 4. 参数量对比
     models = ['MLP', 'CNN']
     params = [mlp_history['params_count'], cnn_history['params_count']]
     axes[1,1].bar(models, params, color=['#e74c3c', '#2ecc71'], alpha=0.7)
@@ -255,7 +254,7 @@ def load_pretrained_models():
     try:
         mlp.load_state_dict(torch.load('./data/mlp_model.pth', map_location=DEVICE))
         cnn.load_state_dict(torch.load('./data/cnn_model.pth', map_location=DEVICE))
-        # 补充训练历史（如果需要重新生成图表，可取消注释）
+        # 补充训练历史
         # train_loader, _ = load_mnist_data()
         # criterion = nn.CrossEntropyLoss()
         # optimizer_mlp = torch.optim.Adam(mlp.parameters(), lr=0.001)
@@ -289,7 +288,7 @@ def predict_digit(model, image_data):
     with torch.no_grad():
         outputs = model(image_tensor)
         _, predicted = torch.max(outputs.data, 1)
-    infer_time = (time.time() - start_time) * 1000  # 转换为毫秒
+    infer_time = (time.time() - start_time) * 1000
 
     return {
         'prediction': int(predicted.item()),

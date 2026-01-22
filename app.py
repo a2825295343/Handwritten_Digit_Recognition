@@ -1,15 +1,15 @@
-import json
-import time
 import os
+
 from flask import Flask, render_template, request, jsonify
+
 from models.model_utils import (
-    load_pretrained_models, predict_digit, init_models
+    load_pretrained_models, predict_digit
 )
 
 # 初始化Flask应用
 app = Flask(__name__)
 
-# 加载预训练模型（启动时加载一次）
+# 加载预训练模型
 print('Loading pretrained models...')
 mlp_model, cnn_model = load_pretrained_models()
 
@@ -72,8 +72,6 @@ def recognize():
 
 # 主函数
 if __name__ == '__main__':
-    # 确保static文件夹存在
     if not os.path.exists('./static'):
         os.makedirs('./static')
-    # 启动Flask应用
     app.run(debug=True, host='0.0.0.0', port=5000)

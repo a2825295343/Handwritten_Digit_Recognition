@@ -93,7 +93,7 @@ $(document).ready(function() {
         }
     });
 
-    // 画布转28x28灰度图（适配MNIST格式）
+    // 画布转28x28灰度图
     function get28x28Grayscale(canvas) {
         const tempCanvas = document.createElement('canvas');
         const tempCtx = tempCanvas.getContext('2d');
