@@ -1,15 +1,16 @@
+import os
 import time
+
+import matplotlib.pyplot as plt
+import pandas as pd
 import torch
 import torchvision
 import torchvision.transforms as transforms
 from torch import nn
 from torch.utils.data import DataLoader
-import matplotlib.pyplot as plt
-import seaborn as sns
-import pandas as pd
-import os
-from .mlp_model import MLP
+
 from .cnn_model import CNN
+from .mlp_model import MLP
 
 # 设备配置：优先使用GPU
 DEVICE = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
