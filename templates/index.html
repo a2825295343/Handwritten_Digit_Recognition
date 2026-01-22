@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>手写数字识别画板</title>
+    <!-- 引入jQuery -->
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/canvas.css') }}">
+</head>
+<body>
+<div class="container">
+    <!-- 标题区域 -->
+    <div class="header">
+        <h1>手写数字识别</h1>
+        <p>在画板上书写0-9的数字，点击识别按钮获取结果</p>
+    </div>
+
+    <!-- 核心交互区域 -->
+    <div class="main-content">
+        <!-- 画板区域 -->
+        <div class="canvas-area">
+            <canvas id="drawingCanvas" width="280" height="280"></canvas>
+            <!-- 操作按钮 -->
+            <div class="btn-group">
+                <button id="clearBtn" class="btn clear">清空画板</button>
+                <button id="recognizeBtn" class="btn recognize">识别数字</button>
+                <select id="modelSelect" class="model-select">
+                    <option value="cnn">卷积神经网络(CNN)</option>
+                    <option value="mlp">全连接网络(MLP)</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- 结果展示区域 -->
+        <div class="result-area">
+            <h3>识别结果</h3>
+            <div id="resultBox" class="result-box">请书写数字并点击识别</div>
+            <div id="modelInfo" class="model-info">模型信息：暂无</div>
+        </div>
+    </div>
+
+    <!-- 模型对比可视化区域 -->
+    <div class="visualization-area">
+        <h3>模型训练过程对比（横坐标：训练轮次）</h3>
+        <div class="chart-container">
+            <!-- 展示训练过程曲线图 -->
+            <img src="{{ url_for('static', filename='training_history.png') }}" alt="训练过程对比曲线" style="width: 100%; max-width: 1200px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+        </div>
+
+    </div>
+</div>
+
+<!-- 引入Chart.js用于可视化 -->
+<script src="https://cdn.bootcdn.net/ajax/libs/Chart.js/4.4.8/chart.umd.js"></script>
+<!-- 画板交互逻辑 -->
+<script src="{{ url_for('static', filename='js/canvas.js') }}"></script>
+</body>
+</html>
